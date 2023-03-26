@@ -78,8 +78,8 @@ resource "azurerm_subnet_network_security_group_association" "example" {
 
 #NicAssociationWithSimpleLB
 resource "azurerm_network_interface" "example" {
-  count               = var.no_of_instance
-  name                = "meda-nic-SimpleLB-${count.index}"
+  for_each            = var.no_of_instance
+  name                = "meda-nic-SimpleLB-${each.key}"
   location            = azurerm_resource_group.example.location
   resource_group_name = azurerm_resource_group.example.name
 

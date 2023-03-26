@@ -42,9 +42,9 @@ resource "azurerm_lb_rule" "test_rule_app1" {
 }
 
 resource "azurerm_network_interface_backend_address_pool_association" "web_nic_lb_associate" {
-  count                   = var.no_of_instance
-  network_interface_id    = azurerm_network_interface.example[count.index].id #element(azurerm_network_interface.example[*].id, count.index)
-  ip_configuration_name   = azurerm_network_interface.example[count.index].ip_configuration[0].name
+  for_each                = var.no_of_instance
+  network_interface_id    = azurerm_network_interface.example[each.key].id #element(azurerm_network_interface.example[*].id, count.index)
+  ip_configuration_name   = azurerm_network_interface.example[each.key].ip_configuration[0].name
   backend_address_pool_id = azurerm_lb_backend_address_pool.test.id
 }
 #*/

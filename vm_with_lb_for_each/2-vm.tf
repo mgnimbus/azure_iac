@@ -17,15 +17,15 @@ sudo curl -H "Metadata:true" --noproxy "*" "http://169.254.169.254/metadata/inst
 CUSTOM_DATA
 }
 resource "azurerm_linux_virtual_machine" "example" {
-  count               = var.no_of_instance
-  name                = "MyLinuxMacie-${count.index}"
+  for_each            = var.no_of_instance
+  name                = "Linux-${each.key}"
   resource_group_name = azurerm_resource_group.example.name
   location            = azurerm_resource_group.example.location
   size                = "Standard_DS1_v2"
   admin_username      = "azureuser"
 
   network_interface_ids = [
-    azurerm_network_interface.example[count.index].id,
+    azurerm_network_interface.example[each.key].id,
     #element(azurerm_network_interface.example[*].id, count.index )
   ]
 
