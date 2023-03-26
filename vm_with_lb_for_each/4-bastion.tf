@@ -57,7 +57,7 @@ resource "azurerm_network_interface" "example1" {
 
   ip_configuration {
     name                          = "bastion-host-ip"
-    subnet_id                     = azurerm_subnet.example.id
+    subnet_id                     = azurerm_subnet.example1.id
     private_ip_address_allocation = "Dynamic"
     public_ip_address_id          = azurerm_public_ip.bastion.id
   }
