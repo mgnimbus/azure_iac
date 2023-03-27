@@ -20,7 +20,7 @@ resource "azurerm_network_security_group" "nsg" {
   resource_group_name = data.azurerm_resource_group.test.name
 
   dynamic "security_rule" {
-    for_each = toset([80, 22])
+    for_each = toset([80, 443])
     content {
       name                       = "Allow-${security_rule.key}-port"
       priority                   = sum([100, security_rule.key])
@@ -47,9 +47,9 @@ resource "random_password" "admin_password" {
   upper       = true
 }
 
-module "vm_lb" {
+module "vm_lb_int" {
   source                           = "../"
-  vm_hostname                      = "linux-test"
+  vm_hostname                      = "linux-test-int"
   resource_group_name              = data.azurerm_resource_group.test.name
   vnet_subnet_id                   = module.network.vnet_subnets[0]
   vm_os_publisher                  = var.vm_os_publisher
@@ -59,19 +59,23 @@ module "vm_lb" {
   admin_username                   = "azureuser"
   admin_password                   = local.admin_password
   network_security_group           = local.network_security_group
+  custom_data                      = base64encode(local.app_data)
   delete_data_disks_on_termination = true
   delete_os_disk_on_termination    = true
-  custom_data                      = base64encode(local.app_data)
   #lb
-  name     = "lb-test-pip"
-  type     = "public"
-  lb_port  = var.lb_port
-  lb_probe = var.lb_probe
+  name                                   = "lb-int-test"
+  type                                   = "private"
+  frontend_subnet_id                     = module.network.vnet_subnets[0]
+  frontend_private_ip_address_allocation = "Static"
+  frontend_private_ip_address            = "10.0.1.200"
+  lb_sku                                 = "Standard"
+  lb_port                                = var.lb_port
+  lb_probe                               = var.lb_probe
 }
 
 resource "azurerm_network_interface_backend_address_pool_association" "web_nic_lb_associate" {
-  network_interface_id    = module.vm_lb.network_interface_ids[0]
-  ip_configuration_name   = "linux-test-ip-0"
-  backend_address_pool_id = module.vm_lb.backend_address_pool_id
-  depends_on              = [module.vm_lb]
+  network_interface_id    = module.vm_lb_int.network_interface_ids[0]
+  ip_configuration_name   = "linux-test-int-ip-0"
+  backend_address_pool_id = module.vm_lb_int.backend_address_pool_id
+  depends_on              = [module.vm_lb_int]
 }
