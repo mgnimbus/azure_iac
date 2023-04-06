@@ -20,7 +20,7 @@ resource "azurerm_linux_virtual_machine" "example" {
   name                = "MyLinuxMacieTest"
   resource_group_name = azurerm_resource_group.example.name
   location            = azurerm_resource_group.example.location
-  size                = "Standard_DS1_v2"
+  size                = "Standard_D2s_v3"
   admin_username      = "azureuser"
 
   network_interface_ids = [
@@ -38,9 +38,9 @@ resource "azurerm_linux_virtual_machine" "example" {
   }
 
   source_image_reference {
-    publisher = "RedHat"
-    offer     = "RHEL"
-    sku       = "86-gen2"
+    publisher = "OpenLogic"
+    offer     = "CentOS"
+    sku       = "8_5-gen2"
     version   = "latest"
   }
   custom_data = base64encode(local.app_data)

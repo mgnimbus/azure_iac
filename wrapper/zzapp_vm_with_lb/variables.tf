@@ -572,7 +572,7 @@ variable "lb_sku_tier" {
 #   default     = ""
 # }
 
-variable "name" {
+variable "lb_name" {
   description = "(Optional) Name of the load balancer. If it is set, the 'prefix' variable will be ignored."
   type        = string
   default     = ""
@@ -656,7 +656,7 @@ variable "prefix" {
   default     = "azure_lb"
 }
 
-variable "remote_port_nat" {
+variable "nat_remote_port" {
   description = "Protocols to be used for remote vm access. [protocol, backend_port].  Frontend port will be automatically generated starting at 50000 and in the output."
   type        = map(any)
   default     = {}

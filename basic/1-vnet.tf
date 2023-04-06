@@ -76,7 +76,6 @@ resource "azurerm_subnet_network_security_group_association" "example" {
 }
 
 #StandAlonePipWithNic
-/*
 resource "azurerm_public_ip" "example" {
   name                = "myPips"
   resource_group_name = azurerm_resource_group.example.name
@@ -103,20 +102,20 @@ resource "azurerm_network_interface" "example" {
     public_ip_address_id          = azurerm_public_ip.example.id
   }
 }
-*/
+
 
 #NicToAssociateWithVM
-resource "azurerm_network_interface" "example" {
-  name                = "meda-nic-SimpleLB"
-  location            = azurerm_resource_group.example.location
-  resource_group_name = azurerm_resource_group.example.name
+# resource "azurerm_network_interface" "example" {
+#   name                = "meda-nic-SimpleLB"
+#   location            = azurerm_resource_group.example.location
+#   resource_group_name = azurerm_resource_group.example.name
 
 
-  ip_configuration {
-    name                          = "FrontPipforLB"
-    subnet_id                     = azurerm_subnet.example.id
-    private_ip_address_allocation = "Dynamic"
-  }
-}
+#   ip_configuration {
+#     name                          = "FrontPipforLB"
+#     subnet_id                     = azurerm_subnet.example.id
+#     private_ip_address_allocation = "Dynamic"
+#   }
+# }
 
 

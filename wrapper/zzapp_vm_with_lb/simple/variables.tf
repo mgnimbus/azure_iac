@@ -1,3 +1,43 @@
+variable "resource_group_name" {
+  description = "The name of the resource group in which the resources will be created."
+  type        = string
+}
+
+variable "location" {
+  description = "The location in which the resources will be created."
+  type        = string
+  default     = null
+}
+
+variable "vnet_subnet_id" {
+  description = "The subnet id of the virtual network where the virtual machines will reside."
+  type        = string
+}
+
+variable "admin_username" {
+  description = "The admin username of the VM that will be deployed."
+  type        = string
+  default     = "azureuser"
+}
+
+variable "enable_ssh_key" {
+  type        = bool
+  description = "(Optional) Enable ssh key authentication in Linux virtual Machine."
+  default     = false
+}
+
+variable "delete_data_disks_on_termination" {
+  type        = bool
+  description = "Delete data disks when machine is terminated."
+  default     = false
+}
+
+variable "delete_os_disk_on_termination" {
+  type        = bool
+  description = "Delete OS disk when machine is terminated."
+  default     = false
+}
+
 variable "vm_os_offer" {
   description = "The name of the offer of the image that you want to deploy. This is ignored when vm_os_id or vm_os_simple are provided."
   type        = string
@@ -63,3 +103,22 @@ variable "network_security_group" {
     error_message = "When `var.network_security_group` is not `null`, `var.network_security_group.id` is required."
   }
 }
+
+variable "name" {
+  description = "(Optional) Name of the load balancer. If it is set, the 'prefix' variable will be ignored."
+  type        = string
+  default     = ""
+}
+
+variable "lb_sku" {
+  description = "(Optional) The SKU of the Azure Load Balancer. Accepted values are Basic and Standard."
+  type        = string
+  default     = "Basic"
+}
+
+variable "frontend_private_ip_address_allocation" {
+  description = "(Optional) Frontend ip allocation type (Static or Dynamic)"
+  type        = string
+  default     = "Dynamic"
+}
+

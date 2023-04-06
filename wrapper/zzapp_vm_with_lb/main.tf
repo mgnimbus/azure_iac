@@ -87,7 +87,7 @@ module "lb_wrapper" {
   frontend_subnet_name = var.frontend_subnet_name
   frontend_vnet_name   = var.frontend_vnet_name
 
-  name                = var.name
+  name                = var.lb_name
   prefix              = var.prefix
   resource_group_name = var.resource_group_name
   type                = var.type
@@ -122,7 +122,7 @@ module "lb_wrapper" {
   frontend_subnet_id                     = var.frontend_subnet_id
 
   #nat_rule
-  remote_port = var.remote_port_nat
+  remote_port = var.nat_remote_port
 
   #lb_probe
   lb_probe                     = var.lb_probe
